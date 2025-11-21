@@ -58,15 +58,15 @@ public:
                 continue;
             }
 
-            for (auto& edge : adjList[currentV]) {
-                auto v = edge.neighbor;
-                auto vWeight = edge.weight;
+            // Update Distances
+            for (const auto& edge : adjList[currentV]) {
+                auto neighbor = edge.neighbor;
+                const auto edgeWeight = edge.weight;
 
-                if (estD[currentV] != INF &&
-                    estD[currentV] + vWeight < estD[v] ) {
-                    estD[v] = estD[currentV] + vWeight;
-                    unsurePQ.emplace(estD[v], v);
-                    cerr << "  Updated vertex " << v << " to distance " << estD[v] << endl;
+                if ( estD[currentV] + edgeWeight < estD[neighbor] ) {
+                    estD[neighbor] = estD[currentV] + edgeWeight;
+                    unsurePQ.emplace(estD[neighbor], neighbor);
+                    cerr << "  Updated vertex " << neighbor << " to distance " << estD[neighbor] << endl;
                 }
             }
         }
@@ -79,8 +79,6 @@ int main(){
     if (!freopen("input.txt", "r", stdin)) {
         cerr << "Error: Cannot open input.txt" << endl;
     };
-
-    cout << INF << endl;
 
     int nTestCases;
     cin >> nTestCases;

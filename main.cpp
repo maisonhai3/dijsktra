@@ -54,6 +54,7 @@ public:
             unsurePQ.pop();
 
             // Skip the Stale Entries
+            // Mark currentV as sure
             if (dCurrentV > estD[currentV]) {
                 continue;
             }

@@ -37,38 +37,40 @@ public:
             pair<int, int>,  // [distance, nodeId]
             vector<pair<int, int>>,
             std::greater<>
-        > pqUnsureList ;
+        > unsurePQ ;
 
-        vector<int> estDistanceList(numV + 1, INF);
+        vector<int> estD(numV + 1, INF);
 
         // MAIN
-        estDistanceList[startV] = 0;
-        pqUnsureList.emplace(0, startV);
+        estD[startV] = 0;
+        unsurePQ.emplace(0, startV);
 
-        while (!pqUnsureList.empty()) {
-            const auto [distance, vertice] = pqUnsureList.top();
-            int dU = distance;
-            int u = vertice;
-            pqUnsureList.pop();
-            cerr << "Processing vertex " << u << " with distance " << dU << endl;
+        while (!unsurePQ.empty()) {
+            const auto [distance, vertice] = unsurePQ.top();
+            const int dCurrentV = distance;
+            const int currentV = vertice;
+            cerr << "Processing vertex " << currentV << " with distance " << dCurrentV << endl;
 
-            if (dU > estDistanceList[u]) {
+            unsurePQ.pop();
+
+            // Skip the Stale Entries
+            if (dCurrentV > estD[currentV]) {
                 continue;
             }
 
-            for (auto& edge : adjList[u]) {
+            for (auto& edge : adjList[currentV]) {
                 auto v = edge.neighbor;
                 auto vWeight = edge.weight;
 
-                if (estDistanceList[u] != INF &&
-                    estDistanceList[u] + vWeight < estDistanceList[v] ) {
-                    estDistanceList[v] = estDistanceList[u] + vWeight;
-                    pqUnsureList.emplace(estDistanceList[v], v);
-                    cerr << "  Updated vertex " << v << " to distance " << estDistanceList[v] << endl;
+                if (estD[currentV] != INF &&
+                    estD[currentV] + vWeight < estD[v] ) {
+                    estD[v] = estD[currentV] + vWeight;
+                    unsurePQ.emplace(estD[v], v);
+                    cerr << "  Updated vertex " << v << " to distance " << estD[v] << endl;
                 }
             }
         }
-        return estDistanceList;
+        return estD;
     }
 
 };

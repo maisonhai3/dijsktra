@@ -8,13 +8,6 @@ using namespace std;
 // --- Prepare Abstract Data Types ---
 constexpr int INF = numeric_limits<int>::max();
 
-// struct Vertex {
-//     int value;
-//     int estD;
-//
-//     explicit Vertex(const int value) : value(value), estD(INF) { };
-// };
-
 struct WeightedEdge {
     int neighbor;
     int weight;
@@ -40,15 +33,12 @@ public:
     }
 
     std::vector<int> shortestPathDijsktra(int startV) {
-        // The priority queue with MIN heap
         priority_queue<
             pair<int, int>,  // [distance, nodeId]
             vector<pair<int, int>>,
             std::greater<>
         > pqUnsureList ;
 
-        // Init
-        // estD
         vector<int> estDistanceList(numV + 1, INF);
 
         // MAIN
@@ -60,6 +50,7 @@ public:
             int dU = distance;
             int u = vertice;
             pqUnsureList.pop();
+            cerr << "Processing vertex " << u << " with distance " << dU << endl;
 
             if (dU > estDistanceList[u]) {
                 continue;
@@ -69,9 +60,11 @@ public:
                 auto v = edge.neighbor;
                 auto vWeight = edge.weight;
 
-                if (estDistanceList[u] + vWeight < estDistanceList[v] ) {
+                if (estDistanceList[u] != INF &&
+                    estDistanceList[u] + vWeight < estDistanceList[v] ) {
                     estDistanceList[v] = estDistanceList[u] + vWeight;
                     pqUnsureList.emplace(estDistanceList[v], v);
+                    cerr << "  Updated vertex " << v << " to distance " << estDistanceList[v] << endl;
                 }
             }
         }
@@ -105,6 +98,5 @@ int main(){
             cout << shortest_distances[i] << " ";
         }
         cout << endl;
-
     }
 }

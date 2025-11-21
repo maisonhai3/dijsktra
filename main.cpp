@@ -31,7 +31,7 @@ public:
     explicit
     WeightedGraph(const int numV) {
        this->numV  = numV;
-       this->adjList = {};
+       this->adjList.resize(numV + 1);
     }
 
     void addEdge(int u, int v, int weight) {
@@ -69,9 +69,9 @@ public:
                 auto v = edge.neighbor;
                 auto vWeight = edge.weight;
 
-                if (estDistanceList[u] + vWeight < estDistanceList[u] ) {
-                    estDistanceList[u] = estDistanceList[u] + vWeight;
-                    pqUnsureList.emplace(estDistanceList[u], v);
+                if (estDistanceList[u] + vWeight < estDistanceList[v] ) {
+                    estDistanceList[v] = estDistanceList[u] + vWeight;
+                    pqUnsureList.emplace(estDistanceList[v], v);
                 }
             }
         }

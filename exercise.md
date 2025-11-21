@@ -18,7 +18,8 @@ Output:
 Kết quả mỗi test là trọng số đường đi ngắn nhất từ đỉnh u đến các đỉnh còn lại của đồ thị theo thứ tự tăng dần các đỉnh.
 
 
-Input:
+Input:  
+
 1
 
 9  12 1

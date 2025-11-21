@@ -74,7 +74,9 @@ public:
 };
 
 int main(){
-    freopen("../input.txt", "r", stdin);
+    if (!freopen("input.txt", "r", stdin)) {
+        cerr << "Error: Cannot open input.txt" << endl;
+    };
 
     cout << INF << endl;
 
